@@ -6,7 +6,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#if (CV_VERSION_MAJOR >= 4)
+#if (!defined(CV_VERSION_EPOCH) && CV_VERSION_MAJOR >= 4)
 #include <opencv2/imgcodecs/legacy/constants_c.h>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
