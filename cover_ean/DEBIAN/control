@@ -1,0 +1,10 @@
+Package: cover-ean
+Version: 0.1-2-12
+License: unknown
+Architecture: amd64
+Maintainer: Julien Boulnois <jboulnois@gmail.com>
+Depends: libopencv-dev,libzbar-dev
+Section: immateriel
+Priority: optional
+Homepage: https://github.com/immateriel/cover_ean
+Description: no description given

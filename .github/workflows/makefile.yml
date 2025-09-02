@@ -1,0 +1,34 @@
+name: Makefile CI
+
+on:
+  push:
+    tags: ['*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: buildpack-deps:bookworm
+
+    steps:
+      - uses: actions/checkout@v4
+    
+      # Installe les dépendances spécifiques pour construire le binaire
+      - name: Install build tools
+        run: |
+          apt-get update
+          apt-get install -y make gcc libopencv-dev libzbar-dev
+
+      # Construit le paquet
+      - name: Build binary and Debian package
+        run: |
+          mkdir -p cover_ean/usr/bin
+          CDEPS="$(pkg-config opencv4 zbar --libs --cflags)"
+          g++ cover_ean.cpp $CDEPS -o cover_ean/usr/bin/cover_ean
+          dpkg --build cover_ean/
+
+      # Publie le paquet dans une Release GitHub
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: ./*.deb
